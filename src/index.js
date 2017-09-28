@@ -383,6 +383,7 @@ class AvatarEditor extends React.Component {
     imageState.resource = image
     imageState.x = 0.5
     imageState.y = 0.5
+
     this.setState({ drag: false, image: imageState }, this.props.onImageReady)
     this.props.onLoadSuccess(imageState)
   }
@@ -431,7 +432,9 @@ class AvatarEditor extends React.Component {
         context.translate((context.canvas.width - context.canvas.height) / 2, (context.canvas.height - context.canvas.width) / 2)
       }
 
-      context.scale(scaleFactor, scaleFactor)
+      context.drawImage(this.props.frame,0, 0, (context.canvas.width ), (context.canvas.height))
+
+      context.scale(scaleFactor, scaleFactor) // scales for retina
 
       context.globalCompositeOperation = 'destination-over'
       context.drawImage(image.resource, position.x, position.y, position.width, position.height)
@@ -490,7 +493,6 @@ class AvatarEditor extends React.Component {
     drawRoundedRect(context, borderSizeX, borderSizeY, width - borderSizeX * 2, height - borderSizeY * 2, borderRadius)
     context.rect(width, 0, -width, height) // outer rect, drawn "counterclockwise"
     context.fill('evenodd')
-
     context.restore()
   }
 
